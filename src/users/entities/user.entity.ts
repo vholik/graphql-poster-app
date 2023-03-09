@@ -1,6 +1,13 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Post } from 'src/posts/entities/post.entity';
+import {
+  Column,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Post } from 'src/posts/entities';
+import { Community } from 'src/communities/entities';
 
 @ObjectType()
 export class User {
@@ -36,10 +43,9 @@ export class User {
   @Field((type) => [Post])
   posts: Post[];
 
-  // @Column()
-  // @OneToMany((type) => Community, (community) => community.users)
-  // @Field((type) => [Community])
-  // subscribed_communities: Community[];
+  @ManyToMany(() => Community)
+  @JoinTable()
+  subscribed_communities: Community[];
 
   @Field((type) => Boolean)
   @Column()
@@ -53,11 +59,7 @@ export class User {
   @OneToMany((type) => Post, (post) => post.owner)
   saved_posts: Post[];
 
-  // @Field((type) => [Community])
-  // @OneToMany((type) => Community, (community) => community.users)
-  // communities_owner: Community[];
-
-  // @Field((type) => [Community])
-  // @OneToMany((type) => Community, (community) => community.users)
-  // communities_moderator: Community[];
+  @Field((type) => [Community])
+  @OneToMany((type) => Community, (community) => community.owner)
+  communities_owner: Community[];
 }
