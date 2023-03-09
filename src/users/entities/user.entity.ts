@@ -1,5 +1,6 @@
-import { ObjectType, Field, Int, Boo } from '@nestjs/graphql';
+import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Post } from 'src/posts/entities/post.entity';
 
 @ObjectType()
 export class User {
@@ -35,10 +36,10 @@ export class User {
   @Field((type) => [Post])
   posts: Post[];
 
-  @Column()
-  @OneToMany((type) => Community, (community) => community.users)
-  @Field((type) => [Community])
-  subscribed_communities: Community[];
+  // @Column()
+  // @OneToMany((type) => Community, (community) => community.users)
+  // @Field((type) => [Community])
+  // subscribed_communities: Community[];
 
   @Field((type) => Boolean)
   @Column()
@@ -48,15 +49,15 @@ export class User {
   @Column()
   show_communities: boolean;
 
-  @Field((type) => [Posts])
+  @Field((type) => [Post])
   @OneToMany((type) => Post, (post) => post.owner)
-  saved_posts: Posts[];
+  saved_posts: Post[];
 
-  @Field((type) => [Community])
-  @OneToMany((type) => Community, (community) => community.users)
-  communities_owner: Community[];
+  // @Field((type) => [Community])
+  // @OneToMany((type) => Community, (community) => community.users)
+  // communities_owner: Community[];
 
-  @Field((type) => [Community])
-  @OneToMany((type) => Community, (community) => community.users)
-  communities_moderator: Community[];
+  // @Field((type) => [Community])
+  // @OneToMany((type) => Community, (community) => community.users)
+  // communities_moderator: Community[];
 }
