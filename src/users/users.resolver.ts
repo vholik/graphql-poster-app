@@ -7,4 +7,9 @@ import { UpdateUserInput } from './dto/update-user.input';
 @Resolver(() => User)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
+
+  @Query(() => String)
+  sayHello(): string {
+    return 'Hello World!';
+  }
 }

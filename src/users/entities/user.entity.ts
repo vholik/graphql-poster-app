@@ -6,8 +6,9 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Post } from 'src/posts/entities';
-import { Community } from 'src/communities/entities';
+import { Post } from 'src/posts';
+import { Community } from 'src/communities';
+import { Comment } from 'src/comments';
 
 @ObjectType()
 export class User {
@@ -45,6 +46,7 @@ export class User {
 
   @ManyToMany(() => Community)
   @JoinTable()
+  @Field((type) => [Community])
   subscribed_communities: Community[];
 
   @Field((type) => Boolean)
@@ -55,6 +57,10 @@ export class User {
   @Column()
   show_communities: boolean;
 
+  @OneToMany((type) => Comment, (comment) => comment.owner)
+  @Field((type) => [Comment])
+  comments: Comment[];
+
   @Field((type) => [Post])
   @OneToMany((type) => Post, (post) => post.owner)
   saved_posts: Post[];
@@ -62,4 +68,12 @@ export class User {
   @Field((type) => [Community])
   @OneToMany((type) => Community, (community) => community.owner)
   communities_owner: Community[];
+
+  @Field((type) => [Comment])
+  @OneToMany((type) => Comment, (comment) => comment.vote_users_downvote)
+  comment_downvotes: Comment[];
+
+  @Field((type) => [Comment])
+  @OneToMany((type) => Comment, (comment) => comment.vote_users_upvote)
+  comment_upvotes: Comment[];
 }

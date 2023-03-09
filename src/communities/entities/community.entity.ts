@@ -3,13 +3,15 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { User } from 'src/users/entities';
-import { Post } from 'src/posts/entities';
-import { Field } from '@nestjs/graphql';
-import { Rule } from 'src/rules/entities';
+import { User } from 'src/users';
+import { Post } from 'src/posts';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { Rule } from 'src/rules';
 
+@ObjectType()
 export class Community {
   @PrimaryGeneratedColumn()
   id: number;
@@ -35,6 +37,7 @@ export class Community {
   @JoinTable()
   posts: Post[];
 
-  //   @Field((type) => [Rule])
-  //   rules: Rule[];
+  @Field((type) => [Rule])
+  @OneToMany((type) => Rule, (rule) => rule.community)
+  rules: Rule[];
 }

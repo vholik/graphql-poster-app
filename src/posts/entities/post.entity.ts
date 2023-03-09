@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { User } from 'src/users/entities';
+import { User } from 'src/users';
 import {
   Column,
   CreateDateColumn,
@@ -11,6 +11,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Comment } from 'src/comments';
 
 @ObjectType()
 export class Post {
@@ -36,11 +37,12 @@ export class Post {
 
   @ManyToMany(() => User)
   @JoinTable()
+  @Field((type) => [User])
   likes: User[];
 
-  // @Field((type) => [Comment])
-  // @OneToMany(() => Comment, (comment) => user.likes)
-  // comments: Comment[];
+  @Field((type) => [Comment])
+  @ManyToOne(() => Comment, (comment) => comment.post)
+  comments: Comment[];
 
   @Field((type) => String)
   @Column('text')
