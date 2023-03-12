@@ -28,7 +28,6 @@ type Post {
   text: String!
   link: String!
   is_active: Boolean!
-  tags: [String!]!
 }
 
 type Rule {
@@ -46,8 +45,7 @@ type Community {
 }
 
 type User {
-  id: Int!
-  name: String!
+  id: String!
   username: String!
   email: String!
   photo: String
@@ -65,4 +63,15 @@ type User {
 
 type Query {
   sayHello: String!
+  getAll: [User!]!
+}
+
+type Mutation {
+  signup(data: CreateUserInput!): User!
+}
+
+input CreateUserInput {
+  email: String!
+  username: String!
+  password: String!
 }

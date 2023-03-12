@@ -1,6 +1,7 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import {
   Column,
+  Entity,
   JoinTable,
   ManyToMany,
   OneToMany,
@@ -10,21 +11,21 @@ import { Post } from 'src/posts';
 import { Community } from 'src/communities';
 import { Comment } from 'src/comments';
 
+@Entity()
 @ObjectType()
 export class User {
   @PrimaryGeneratedColumn()
-  @Field((type) => Int)
-  id: number;
+  @Field((type) => String)
+  id: string;
 
-  @Column()
-  @Field({ nullable: false })
-  name: string;
-
-  @Column()
+  @Column({ unique: true })
   @Field({ nullable: false })
   username: string;
 
   @Column()
+  password: string;
+
+  @Column({ unique: true })
   @Field({ nullable: false })
   email: string;
 
@@ -40,29 +41,29 @@ export class User {
   @Field({ nullable: true })
   description: string;
 
-  @OneToMany((type) => Post, (post) => post.owner)
+  @OneToMany(() => Post, (post) => post.owner)
   @Field((type) => [Post])
   posts: Post[];
 
   @ManyToMany(() => Community)
-  @JoinTable()
   @Field((type) => [Community])
   subscribed_communities: Community[];
 
   @Field((type) => Boolean)
-  @Column()
+  @Column({ default: true })
   show_posts: boolean;
 
   @Field((type) => Boolean)
-  @Column()
+  @Column({ default: true })
   show_communities: boolean;
 
   @OneToMany((type) => Comment, (comment) => comment.owner)
   @Field((type) => [Comment])
   comments: Comment[];
 
+  @ManyToMany(() => Post)
+  @JoinTable()
   @Field((type) => [Post])
-  @OneToMany((type) => Post, (post) => post.owner)
   saved_posts: Post[];
 
   @Field((type) => [Community])

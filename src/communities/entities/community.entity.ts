@@ -1,5 +1,6 @@
 import {
   Column,
+  Entity,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -11,6 +12,7 @@ import { Post } from 'src/posts';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Rule } from 'src/rules';
 
+@Entity()
 @ObjectType()
 export class Community {
   @PrimaryGeneratedColumn()

@@ -3,6 +3,7 @@ import { Post } from 'src/posts';
 import { User } from 'src/users/entities';
 import {
   CreateDateColumn,
+  Entity,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -10,6 +11,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+@Entity()
 @ObjectType()
 export class Comment {
   @PrimaryGeneratedColumn()
@@ -17,7 +19,7 @@ export class Comment {
   id: number;
 
   @Field((type) => User)
-  @ManyToOne(() => User, (user) => user.posts)
+  @ManyToOne(() => User, (user) => user.comments)
   owner: User;
 
   @CreateDateColumn()

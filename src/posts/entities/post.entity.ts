@@ -3,6 +3,7 @@ import { User } from 'src/users';
 import {
   Column,
   CreateDateColumn,
+  Entity,
   JoinColumn,
   JoinTable,
   ManyToMany,
@@ -13,6 +14,7 @@ import {
 } from 'typeorm';
 import { Comment } from 'src/comments';
 
+@Entity()
 @ObjectType()
 export class Post {
   @PrimaryGeneratedColumn()
@@ -56,7 +58,7 @@ export class Post {
   @Column()
   is_active: boolean;
 
-  @Field((type) => [String])
-  @Column('string', { array: true })
-  tags: string[];
+  // @Field((type) => [String])
+  // @Column('string', { array: true })
+  // tags: string[];
 }
