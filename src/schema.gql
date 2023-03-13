@@ -45,8 +45,9 @@ type Community {
 }
 
 type User {
-  id: String!
+  id: Float!
   username: String!
+  password: String!
   email: String!
   photo: String
   description: String
@@ -64,14 +65,22 @@ type User {
 type Query {
   sayHello: String!
   getAll: [User!]!
+  protected: String!
 }
 
 type Mutation {
   signup(data: CreateUserInput!): User!
+  login(data: LoginUserInput!): User
+  logout: String!
 }
 
 input CreateUserInput {
   email: String!
   username: String!
+  password: String!
+}
+
+input LoginUserInput {
+  email: String!
   password: String!
 }

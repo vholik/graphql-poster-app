@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities';
 import { GraphQLError } from 'graphql';
+import { LoginUserInput } from './dto';
 
 @Injectable()
 export class UsersService {
@@ -19,8 +20,10 @@ export class UsersService {
     const hashedPassword = await bcrypt.hash(password, saltOrRounds);
 
     // Check user by username
-    const candidate = await this.usersRepository.findBy({
-      username,
+    const candidate = await this.usersRepository.findOne({
+      where: {
+        username,
+      },
     });
 
     if (candidate) {
@@ -41,10 +44,25 @@ export class UsersService {
 
     await this.usersRepository.save(user);
 
-    console.log(user);
+    return user;
+  }
+
+  async getUser(email: string) {
+    const user = await this.usersRepository.findOneBy({
+      email,
+    });
+
+    if (!user) {
+      throw new GraphQLError('There is no user with that id', {
+        extensions: {
+          exception: {
+            code: '404',
+          },
+        },
+      });
+    }
 
     return user;
-    // return user;
   }
 
   async getAll() {

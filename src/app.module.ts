@@ -9,12 +9,25 @@ import { AppService } from './app.service';
 import { PostsModule } from './posts/posts.module';
 import { User } from './users';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      context: ({ req, res }) => ({ req, res }),
+      // cors: {
+      //   credentials: true,
+      //   origin: false,
+      // },
+      playground: {
+        settings: {
+          'editor.theme': 'light', // use value dark if you want a dark theme in the playground
+          'request.credentials': 'same-origin',
+        },
+      },
     }),
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
@@ -33,6 +46,7 @@ import { UsersModule } from './users/users.module';
     }),
     PostsModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

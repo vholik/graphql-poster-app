@@ -15,14 +15,15 @@ import { Comment } from 'src/comments';
 @ObjectType()
 export class User {
   @PrimaryGeneratedColumn()
-  @Field((type) => String)
-  id: string;
+  @Field((type) => Number)
+  id: number;
 
   @Column({ unique: true })
   @Field({ nullable: false })
   username: string;
 
   @Column()
+  @Field({ nullable: false })
   password: string;
 
   @Column({ unique: true })
