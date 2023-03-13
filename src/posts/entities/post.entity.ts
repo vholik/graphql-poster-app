@@ -13,6 +13,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Comment } from 'src/comments';
+import { Community } from 'src/communities';
 
 @Entity()
 @ObjectType()
@@ -25,9 +26,17 @@ export class Post {
   @Field((type) => User)
   owner: User;
 
+  @ManyToOne(() => Community, (community) => community.posts)
+  @Field((type) => Community)
+  community: Community;
+
   @CreateDateColumn()
   @Field((type) => Date)
   date: Date;
+
+  @CreateDateColumn()
+  @Field((type) => Date)
+  last_update: Date;
 
   @Field((type) => String)
   @Column({ nullable: true })
@@ -49,6 +58,10 @@ export class Post {
   @Field((type) => String)
   @Column('text')
   text: string;
+
+  @Field((type) => String)
+  @Column()
+  title: string;
 
   @Field((type) => String)
   @Column()

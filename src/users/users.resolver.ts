@@ -4,6 +4,7 @@ import { User } from './entities/user.entity';
 import { CreateUserInput, LoginUserInput } from './dto';
 import { Request, UseGuards } from '@nestjs/common';
 import { AuthenticatedGuard, LocalAuthGuard } from 'src/auth';
+import { UpdateUserInput } from './dto/update-user.input';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -30,10 +31,14 @@ export class UsersResolver {
     return this.usersService.getAll();
   }
 
-  @Query(() => String)
-  @UseGuards(AuthenticatedGuard)
-  protected() {
-    return 'This route is protected';
+  // @Query(() => String)
+  // @UseGuards(AuthenticatedGuard)
+  // protected() {
+  //   return 'This route is protected';
+  // }
+
+  updateUser(@Args('data') updateUserInput: UpdateUserInput) {
+    return this.usersService.update(updateUserInput);
   }
 
   @Mutation((returns) => String)

@@ -78,4 +78,8 @@ export class User {
   @Field((type) => [Comment])
   @OneToMany((type) => Comment, (comment) => comment.vote_users_upvote)
   comment_upvotes: Comment[];
+
+  @Field((type) => String)
+  @Column({ nullable: true })
+  name: string;
 }

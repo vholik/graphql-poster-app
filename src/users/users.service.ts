@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { User } from './entities';
 import { GraphQLError } from 'graphql';
 import { LoginUserInput } from './dto';
+import { UpdateUserInput } from './dto/update-user.input';
 
 @Injectable()
 export class UsersService {
@@ -67,5 +68,18 @@ export class UsersService {
 
   async getAll() {
     return await this.usersRepository.find();
+  }
+
+  async update(input: UpdateUserInput) {
+    const { id, ...restInput } = input;
+
+    return await this.usersRepository.update(
+      {
+        id,
+      },
+      {
+        ...restInput,
+      },
+    );
   }
 }

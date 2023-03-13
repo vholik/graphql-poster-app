@@ -35,8 +35,7 @@ export class Community {
   description: string;
 
   @Field((type) => [Post])
-  @ManyToMany(() => Post)
-  @JoinTable()
+  @OneToMany(() => Post, (post) => post.community)
   posts: Post[];
 
   @Field((type) => [Rule])
