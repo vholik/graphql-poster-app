@@ -11,6 +11,7 @@ import { User } from './users';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
+import { CommunitiesModule } from './communities/communities.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { PassportModule } from '@nestjs/passport';
     PostsModule,
     UsersModule,
     AuthModule,
+    CommunitiesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

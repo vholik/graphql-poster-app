@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { GraphQLError } from 'graphql';
 import { CreateUserInput } from 'src/users/dto';
 import { Repository } from 'typeorm';
 import { Post } from '.';
@@ -22,8 +23,28 @@ export class PostsService {
     await this.postsRepository.save(post);
   }
 
-  async update(input: UpdatePostInput) {
+  async update(input: UpdatePostInput, userId: number) {
     const { id, ...restInput } = input;
+
+    //Check if posts belongs to user
+    const post = await this.postsRepository.findOne({
+      where: {
+        id,
+        owner: {
+          id: userId,
+        },
+      },
+    });
+    if (!post) {
+      throw new GraphQLError('There is no user with that id', {
+        extensions: {
+          exception: {
+            code: '403',
+          },
+        },
+      });
+    }
+
     await this.postsRepository.update(
       { id },
       { ...restInput, last_update: Date.now() },
