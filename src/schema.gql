@@ -9,6 +9,7 @@ type Community {
   description: String!
   posts: [Post!]!
   pid: String!
+  rules: [String!]!
 }
 
 type Comment {
@@ -116,6 +117,7 @@ input CreateCommunityInput {
   description: String
   name: String
   pid: String!
+  rules: [String!]!
 }
 
 input UpdateCommunityInput {
@@ -124,6 +126,7 @@ input UpdateCommunityInput {
   photo: String!
   description: String
   name: String
+  rules: [String!]!
 }
 
 input AddCommentInput {

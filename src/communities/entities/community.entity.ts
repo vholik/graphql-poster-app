@@ -40,4 +40,8 @@ export class Community {
   @Column({ unique: true })
   @Field((type) => String)
   pid: string;
+
+  @Column('text', { array: true })
+  @Field(() => [String])
+  rules: string[];
 }

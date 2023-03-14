@@ -28,4 +28,9 @@ export class CreateCommunityInput {
   @IsString()
   @Field(() => String)
   pid: string;
+
+  @IsOptional()
+  @IsString({ each: true })
+  @Field(() => [String])
+  rules?: string[];
 }

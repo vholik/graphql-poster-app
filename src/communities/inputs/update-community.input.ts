@@ -27,4 +27,9 @@ export class UpdateCommunityInput {
   @IsOptional()
   @Field(() => String, { nullable: true })
   name?: string;
+
+  @IsOptional()
+  @IsString({ each: true })
+  @Field(() => [String])
+  rules?: string[];
 }
