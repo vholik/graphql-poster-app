@@ -2,18 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Rule {
-  text: String!
-  community: Community!
-}
-
 type Community {
   owner: User!
   cover: String!
   photo: String!
   description: String!
   posts: [Post!]!
-  rules: [Rule!]!
   pid: String!
 }
 
@@ -72,6 +66,7 @@ type Post {
 type Query {
   getPosts: String!
   getAll: [User!]!
+  findComments: [Comment!]!
 }
 
 type Mutation {
@@ -84,6 +79,7 @@ type Mutation {
   updateCommunity(data: UpdateCommunityInput!): Community!
   addComment(data: AddCommentInput!): Comment!
   updateComment(data: UpdateCommentInput!): Comment!
+  deleteComment(commentId: Float!): Comment!
 }
 
 input CreatePostInput {

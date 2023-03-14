@@ -1,6 +1,5 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { Rule } from 'src/rules';
 
 @ObjectType({ isAbstract: true })
 @InputType({ isAbstract: true })
@@ -19,10 +18,6 @@ export class CreateCommunityInput {
   @IsOptional()
   @Field(() => String, { nullable: true })
   description?: string;
-
-  // @IsOptional()
-  // @Field(() => [Rule], { nullable: true })
-  // rules?: Rule[];
 
   @IsNotEmpty()
   @IsString()

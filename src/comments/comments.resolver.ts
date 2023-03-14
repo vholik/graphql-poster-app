@@ -4,6 +4,7 @@ import { AuthenticatedGuard } from 'src/auth';
 import { CommentsModule } from './comments.module';
 import { CommentsService } from './comments.service';
 import { Comment } from './entities';
+import { Query } from '@nestjs/graphql';
 import { AddCommentInput, UpdateCommentInput } from './inputs';
 
 @Resolver()
@@ -24,5 +25,17 @@ export class CommentsResolver {
     const userId = ctx.req.user.userId;
 
     return this.commentsService.update(input, userId);
+  }
+  @Mutation(() => Comment)
+  @UseGuards(AuthenticatedGuard)
+  deleteComment(@Args('commentId') commentId: number, @Context() ctx: any) {
+    const userId = ctx.req.user.userId;
+
+    return this.commentsService.delete(commentId, userId);
+  }
+
+  @Query(() => [Comment])
+  findComments(postId: number) {
+    return this.commentsService.find(postId);
   }
 }

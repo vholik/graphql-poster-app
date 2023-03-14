@@ -10,7 +10,6 @@ import {
 import { User } from 'src/users';
 import { Post } from 'src/posts';
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Rule } from 'src/rules';
 
 @Entity()
 @ObjectType()
@@ -37,10 +36,6 @@ export class Community {
   @Field((type) => [Post])
   @OneToMany(() => Post, (post) => post.community)
   posts: Post[];
-
-  @Field((type) => [Rule])
-  @OneToMany((type) => Rule, (rule) => rule.community)
-  rules: Rule[];
 
   @Column({ unique: true })
   @Field((type) => String)

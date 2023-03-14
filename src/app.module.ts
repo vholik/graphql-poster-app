@@ -13,7 +13,6 @@ import { AuthModule } from './auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
 import { CommunitiesModule } from './communities/communities.module';
 import { CommentsModule } from './comments/comments.module';
-import { RulesModule } from './rules/rules.module';
 
 @Module({
   imports: [
@@ -52,7 +51,6 @@ import { RulesModule } from './rules/rules.module';
     AuthModule,
     CommunitiesModule,
     CommentsModule,
-    RulesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
