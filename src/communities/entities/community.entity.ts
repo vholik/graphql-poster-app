@@ -41,4 +41,8 @@ export class Community {
   @Field((type) => [Rule])
   @OneToMany((type) => Rule, (rule) => rule.community)
   rules: Rule[];
+
+  @Column({ unique: true })
+  @Field((type) => String)
+  pid: string;
 }

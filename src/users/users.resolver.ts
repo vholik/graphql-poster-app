@@ -10,11 +10,6 @@ import { UpdateUserInput } from './dto/update-user.input';
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Query(() => String)
-  sayHello(): string {
-    return 'Hello World!';
-  }
-
   @Mutation((returns) => User)
   async signup(@Args('data') dto: CreateUserInput) {
     return await this.usersService.signup(dto);

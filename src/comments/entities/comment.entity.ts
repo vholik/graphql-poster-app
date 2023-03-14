@@ -2,6 +2,7 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Post } from 'src/posts';
 import { User } from 'src/users/entities';
 import {
+  Column,
   CreateDateColumn,
   Entity,
   JoinTable,
@@ -22,6 +23,9 @@ export class Comment {
   @ManyToOne(() => User, (user) => user.comments)
   owner: User;
 
+  @Field((type) => String)
+  text: string;
+
   @CreateDateColumn()
   @Field((type) => Date)
   date: Date;
@@ -34,12 +38,21 @@ export class Comment {
   @ManyToOne(() => User, (user) => user.comment_downvotes)
   vote_users_downvote: User[];
 
-  @ManyToMany((type) => Comment)
-  @JoinTable()
-  @Field((type) => [Comment])
-  subcomments: Comment;
+  @ManyToOne((type) => Comment, (comment) => comment.childComment)
+  parentComment: Comment;
+
+  @OneToMany((type) => Comment, (comment) => comment.parentComment)
+  childComment: Comment;
 
   @Field((type) => [Comment])
   @OneToMany(() => Post, (post) => post.comments)
   post: Post;
+
+  @Field(() => Boolean, { defaultValue: false })
+  @Column('bool', { default: false })
+  isDeleted: boolean;
+
+  @Field(() => Boolean, { defaultValue: false })
+  @Column('bool', { default: false })
+  isUpdated: boolean;
 }

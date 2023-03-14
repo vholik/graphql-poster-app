@@ -27,5 +27,6 @@ export class CreatePostInput {
 
   @IsNumber()
   @IsNotEmpty()
+  @Field(() => Number)
   community_id: number;
 }

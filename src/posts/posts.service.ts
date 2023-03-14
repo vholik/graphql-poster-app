@@ -20,7 +20,7 @@ export class PostsService {
       owner: { id: userId },
       community: { id: input.community_id },
     });
-    await this.postsRepository.save(post);
+    return await this.postsRepository.save(post);
   }
 
   async update(input: UpdatePostInput, userId: number) {
@@ -45,7 +45,7 @@ export class PostsService {
       });
     }
 
-    await this.postsRepository.update(
+    return await this.postsRepository.update(
       { id },
       { ...restInput, last_update: Date.now() },
     );

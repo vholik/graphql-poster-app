@@ -14,16 +14,19 @@ type Community {
   description: String!
   posts: [Post!]!
   rules: [Rule!]!
+  pid: String!
 }
 
 type Comment {
   id: Int!
   owner: User!
+  text: String!
   date: DateTime!
   vote_users_upvote: User!
   vote_users_downvote: User!
-  subcomments: [Comment!]!
   post: [Comment!]!
+  isDeleted: Boolean!
+  isUpdated: Boolean!
 }
 
 """
@@ -68,14 +71,36 @@ type Post {
 
 type Query {
   getPosts: String!
-  sayHello: String!
   getAll: [User!]!
 }
 
 type Mutation {
+  createPost(data: CreatePostInput!): String!
+  updatePost(data: UpdatePostInput!): String!
   signup(data: CreateUserInput!): User!
   login(data: LoginUserInput!): User
   logout: String!
+  createCommunity(data: CreateCommunityInput!): Community!
+  updateCommunity(data: UpdateCommunityInput!): Community!
+  addComment(data: AddCommentInput!): Comment!
+  updateComment(data: UpdateCommentInput!): Comment!
+}
+
+input CreatePostInput {
+  text: String!
+  title: String!
+  link: String
+  photo: String
+  community_id: Float!
+}
+
+input UpdatePostInput {
+  id: Float!
+  text: String!
+  title: String!
+  link: String
+  photo: String
+  is_active: Boolean!
 }
 
 input CreateUserInput {
@@ -87,4 +112,31 @@ input CreateUserInput {
 input LoginUserInput {
   email: String!
   password: String!
+}
+
+input CreateCommunityInput {
+  cover: String
+  photo: String
+  description: String
+  name: String
+  pid: String!
+}
+
+input UpdateCommunityInput {
+  communityId: String!
+  cover: String
+  photo: String!
+  description: String
+  name: String
+}
+
+input AddCommentInput {
+  text: String!
+  parentCommentId: Float
+  postId: Float!
+}
+
+input UpdateCommentInput {
+  text: String!
+  commentId: Float!
 }

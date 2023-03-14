@@ -12,6 +12,7 @@ import {
 export class UpdatePostInput {
   @IsNumber()
   @IsNotEmpty()
+  @Field(() => Number)
   id: number;
 
   @Field(() => String)
@@ -36,5 +37,6 @@ export class UpdatePostInput {
 
   @IsOptional()
   @IsBoolean()
+  @Field(() => Boolean)
   is_active?: boolean;
 }
