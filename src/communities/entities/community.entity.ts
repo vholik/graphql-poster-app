@@ -22,12 +22,12 @@ export class Community {
   owner: User;
 
   @Column()
-  @Field((type) => String)
-  cover: string;
+  @Field((type) => String, { nullable: true })
+  cover?: string;
 
-  @Field((type) => String)
+  @Field((type) => String, { nullable: true })
   @Column()
-  photo: string;
+  photo?: string;
 
   @Column('text')
   @Field((type) => String)

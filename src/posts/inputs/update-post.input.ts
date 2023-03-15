@@ -6,6 +6,8 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
+//@ts-ignore
+import { FileUpload, GraphQLUpload } from 'graphql-upload';
 
 @ObjectType({ isAbstract: true })
 @InputType({ isAbstract: true })
@@ -30,13 +32,11 @@ export class UpdatePostInput {
   @IsOptional()
   link?: string;
 
-  @Field(() => String, { nullable: true })
-  @IsString()
-  @IsOptional()
-  photo?: string;
-
   @IsOptional()
   @IsBoolean()
   @Field(() => Boolean)
   is_active?: boolean;
+
+  @Field(() => GraphQLUpload, { name: 'file', nullable: true })
+  photo?: FileUpload;
 }

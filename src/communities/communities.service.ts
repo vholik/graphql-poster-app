@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GraphQLError } from 'graphql';
+import { UploadService } from 'src/upload/upload.service';
 import { Repository } from 'typeorm';
 import { Community } from './entities';
 import { CreateCommunityInput } from './inputs';
@@ -11,11 +12,18 @@ export class CommunitiesService {
   constructor(
     @InjectRepository(Community)
     private communitiesRepository: Repository<Community>,
+    private uploadService: UploadService,
   ) {}
 
   async create(input: CreateCommunityInput, userId: number) {
     const community = this.communitiesRepository.create({
       ...input,
+      photo: input.photo
+        ? await this.uploadService.handleUpload(input.photo)
+        : undefined,
+      cover: input.cover
+        ? await this.uploadService.handleUpload(input.cover)
+        : undefined,
       owner: { id: userId },
     });
 
@@ -41,6 +49,17 @@ export class CommunitiesService {
       });
     }
 
-    return await this.communitiesRepository.update({ id: communityId }, rest);
+    return await this.communitiesRepository.update(
+      { id: communityId },
+      {
+        ...rest,
+        photo: input.photo
+          ? await this.uploadService.handleUpload(input.photo)
+          : undefined,
+        cover: input.cover
+          ? await this.uploadService.handleUpload(input.cover)
+          : undefined,
+      },
+    );
   }
 }

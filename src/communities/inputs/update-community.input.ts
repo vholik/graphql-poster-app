@@ -1,5 +1,7 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+//@ts-ignore
+import { FileUpload, GraphQLUpload } from 'graphql-upload';
 
 @ObjectType({ isAbstract: true })
 @InputType({ isAbstract: true })
@@ -8,15 +10,11 @@ export class UpdateCommunityInput {
   @Field(() => String)
   communityId: number;
 
-  @IsString()
-  @Field(() => String, { nullable: true })
-  @IsOptional()
-  cover?: string;
+  @Field(() => GraphQLUpload, { name: 'file', nullable: true })
+  cover?: FileUpload;
 
-  @IsString()
-  @IsOptional()
-  @Field(() => String)
-  photo?: string;
+  @Field(() => GraphQLUpload, { name: 'file', nullable: true })
+  photo?: FileUpload;
 
   @IsString()
   @IsOptional()

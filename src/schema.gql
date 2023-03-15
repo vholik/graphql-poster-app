@@ -4,8 +4,8 @@
 
 type Community {
   owner: User!
-  cover: String!
-  photo: String!
+  cover: String
+  photo: String
   description: String!
   posts: [Post!]!
   pid: String!
@@ -81,24 +81,26 @@ type Mutation {
   addComment(data: AddCommentInput!): Comment!
   updateComment(data: UpdateCommentInput!): Comment!
   deleteComment(commentId: Float!): Comment!
-  singleUpload(file: Upload!): Boolean!
 }
 
 input CreatePostInput {
   text: String!
   title: String!
   link: String
-  photo: String
   community_id: Float!
+  file: Upload
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 input UpdatePostInput {
   id: Float!
   text: String!
   title: String!
   link: String
-  photo: String
   is_active: Boolean!
+  file: Upload
 }
 
 input CreateUserInput {
@@ -113,8 +115,7 @@ input LoginUserInput {
 }
 
 input CreateCommunityInput {
-  cover: String
-  photo: String
+  file: Upload
   description: String
   name: String
   pid: String!
@@ -123,8 +124,7 @@ input CreateCommunityInput {
 
 input UpdateCommunityInput {
   communityId: String!
-  cover: String
-  photo: String!
+  file: Upload
   description: String
   name: String
   rules: [String!]!
@@ -140,6 +140,3 @@ input UpdateCommentInput {
   text: String!
   commentId: Float!
 }
-
-"""The `Upload` scalar type represents a file upload."""
-scalar Upload
