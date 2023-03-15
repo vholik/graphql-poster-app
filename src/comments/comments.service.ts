@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GraphQLError } from 'graphql';
+import { PostsService } from 'src/posts/posts.service';
+import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
 import { Comment } from './entities';
 import { AddCommentInput, UpdateCommentInput } from './inputs';
@@ -10,6 +12,8 @@ export class CommentsService {
   constructor(
     @InjectRepository(Comment)
     private commentsRepository: Repository<Comment>,
+    private usersService: UsersService,
+    private postsService: PostsService,
   ) {}
 
   async find(postId: number) {
@@ -25,18 +29,17 @@ export class CommentsService {
   async add(input: AddCommentInput, userId: number) {
     const { postId, text, parentCommentId } = input;
 
-    return await this.commentsRepository.update(
-      {
-        id: postId,
-      },
-      {
-        parentComment: parentCommentId ? { id: parentCommentId } : undefined,
-        text,
-        owner: {
-          id: userId,
-        },
-      },
-    );
+    const owner = await this.usersService.findById(userId);
+    const post = await this.postsService.findById(input.postId);
+
+    const comment = this.commentsRepository.create({
+      parent_comment: parentCommentId ? { id: parentCommentId } : undefined,
+      text,
+      owner,
+      post,
+    });
+
+    await this.commentsRepository.save(comment);
   }
 
   async update(input: UpdateCommentInput, userId: number) {
@@ -61,7 +64,7 @@ export class CommentsService {
 
     return await this.commentsRepository.update(
       { id: input.commentId },
-      { text: input.text, isUpdated: true },
+      { text: input.text, is_updated: true },
     );
   }
 
@@ -87,7 +90,7 @@ export class CommentsService {
 
     return await this.commentsRepository.update(
       { id: commentId },
-      { isDeleted: true },
+      { is_deleted: true },
     );
   }
 }

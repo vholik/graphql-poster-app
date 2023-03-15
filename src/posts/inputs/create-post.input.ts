@@ -26,6 +26,6 @@ export class CreatePostInput {
   @Field(() => Number)
   community_id: number;
 
-  @Field(() => GraphQLUpload, { name: 'file', nullable: true })
+  @Field(() => GraphQLUpload, { name: 'photo', nullable: true })
   photo?: FileUpload;
 }

@@ -10,10 +10,10 @@ export class UpdateCommunityInput {
   @Field(() => String)
   communityId: number;
 
-  @Field(() => GraphQLUpload, { name: 'file', nullable: true })
+  @Field(() => GraphQLUpload, { name: 'cover', nullable: true })
   cover?: FileUpload;
 
-  @Field(() => GraphQLUpload, { name: 'file', nullable: true })
+  @Field(() => GraphQLUpload, { name: 'photo', nullable: true })
   photo?: FileUpload;
 
   @IsString()
@@ -28,6 +28,6 @@ export class UpdateCommunityInput {
 
   @IsOptional()
   @IsString({ each: true })
-  @Field(() => [String])
+  @Field(() => [String], { nullable: true })
   rules?: string[];
 }

@@ -78,4 +78,8 @@ export class UsersService {
       input,
     );
   }
+
+  async findById(id: number) {
+    return await this.usersRepository.findOneByOrFail({ id });
+  }
 }

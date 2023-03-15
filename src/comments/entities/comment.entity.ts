@@ -5,6 +5,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -30,6 +31,9 @@ export class Comment {
   @Field((type) => Date)
   date: Date;
 
+  @Column({ type: 'int', nullable: true })
+  upvote_user_id: number;
+
   @Field((type) => User)
   @ManyToOne(() => User, (user) => user.comment_upvotes)
   vote_users_upvote: User[];
@@ -38,21 +42,21 @@ export class Comment {
   @ManyToOne(() => User, (user) => user.comment_downvotes)
   vote_users_downvote: User[];
 
-  @ManyToOne((type) => Comment, (comment) => comment.childComment)
-  parentComment: Comment;
+  @ManyToOne((type) => Comment, (comment) => comment.child_comment)
+  parent_comment: Comment;
 
-  @OneToMany((type) => Comment, (comment) => comment.parentComment)
-  childComment: Comment;
+  @OneToMany((type) => Comment, (comment) => comment.parent_comment)
+  child_comment: Comment;
 
   @Field((type) => [Comment])
-  @OneToMany(() => Post, (post) => post.comments)
+  @ManyToOne(() => Post, (post) => post.comments)
   post: Post;
 
   @Field(() => Boolean, { defaultValue: false })
   @Column('bool', { default: false })
-  isDeleted: boolean;
+  is_deleted: boolean;
 
   @Field(() => Boolean, { defaultValue: false })
   @Column('bool', { default: false })
-  isUpdated: boolean;
+  is_updated: boolean;
 }

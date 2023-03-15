@@ -1,6 +1,7 @@
 import { UseGuards } from '@nestjs/common';
 import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthenticatedGuard } from 'src/auth';
+import { UsersService } from 'src/users/users.service';
 import { CommunitiesService } from './communities.service';
 import { Community } from './entities';
 import { CreateCommunityInput } from './inputs';
@@ -8,7 +9,10 @@ import { UpdateCommunityInput } from './inputs';
 
 @Resolver()
 export class CommunitiesResolver {
-  constructor(private readonly communitiesService: CommunitiesService) {}
+  constructor(
+    private readonly communitiesService: CommunitiesService,
+    private usersService: UsersService,
+  ) {}
 
   @Mutation((returns) => Community)
   @UseGuards(AuthenticatedGuard)
@@ -17,7 +21,7 @@ export class CommunitiesResolver {
     @Context() ctx: any,
   ) {
     const user = ctx.req.user;
-    console.log(user);
+    console.log(ctx.req.user);
 
     return this.communitiesService.create(input, user.id);
   }

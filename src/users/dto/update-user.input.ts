@@ -34,6 +34,6 @@ export class UpdateUserInput {
   @Field(() => String, { nullable: true })
   name: string;
 
-  @Field(() => GraphQLUpload, { name: 'file', nullable: true })
+  @Field(() => GraphQLUpload, { name: 'photo', nullable: true })
   photo?: FileUpload;
 }

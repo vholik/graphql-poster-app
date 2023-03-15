@@ -2,6 +2,23 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Comment {
+  id: Int!
+  owner: User!
+  text: String!
+  date: DateTime!
+  vote_users_upvote: User!
+  vote_users_downvote: User!
+  post: [Comment!]!
+  is_deleted: Boolean!
+  is_updated: Boolean!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Community {
   owner: User!
   cover: String
@@ -12,22 +29,21 @@ type Community {
   rules: [String!]!
 }
 
-type Comment {
+type Post {
   id: Int!
   owner: User!
-  text: String!
+  community: Community!
   date: DateTime!
-  vote_users_upvote: User!
-  vote_users_downvote: User!
-  post: [Comment!]!
-  isDeleted: Boolean!
-  isUpdated: Boolean!
+  last_update: DateTime!
+  photo: String!
+  views: Int!
+  likes: [User!]!
+  comments: [Comment!]!
+  text: String!
+  title: String!
+  link: String!
+  is_active: Boolean!
 }
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
 
 type User {
   id: Float!
@@ -46,22 +62,6 @@ type User {
   comment_downvotes: [Comment!]!
   comment_upvotes: [Comment!]!
   name: String!
-}
-
-type Post {
-  id: Int!
-  owner: User!
-  community: Community!
-  date: DateTime!
-  last_update: DateTime!
-  photo: String!
-  views: Int!
-  likes: [User!]!
-  comments: [Comment!]!
-  text: String!
-  title: String!
-  link: String!
-  is_active: Boolean!
 }
 
 type Query {
@@ -89,7 +89,7 @@ input CreatePostInput {
   title: String!
   link: String
   community_id: Float!
-  file: Upload
+  photo: Upload
 }
 
 """The `Upload` scalar type represents a file upload."""
@@ -101,7 +101,7 @@ input UpdatePostInput {
   title: String!
   link: String
   is_active: Boolean!
-  file: Upload
+  photo: Upload
 }
 
 input CreateUserInput {
@@ -120,23 +120,25 @@ input UpdateUserInput {
   show_posts: Boolean
   show_communities: Boolean
   name: String
-  file: Upload
+  photo: Upload
 }
 
 input CreateCommunityInput {
-  file: Upload
+  cover: Upload
+  photo: Upload
   description: String
   name: String
   pid: String!
-  rules: [String!]!
+  rules: [String!]
 }
 
 input UpdateCommunityInput {
   communityId: String!
-  file: Upload
+  cover: Upload
+  photo: Upload
   description: String
   name: String
-  rules: [String!]!
+  rules: [String!]
 }
 
 input AddCommentInput {

@@ -4,6 +4,7 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -62,7 +63,7 @@ export class User {
   @Field((type) => [Comment])
   comments: Comment[];
 
-  @ManyToMany(() => Post)
+  @ManyToOne(() => Post, (post) => post.likes)
   @JoinTable()
   @Field((type) => [Post])
   saved_posts: Post[];

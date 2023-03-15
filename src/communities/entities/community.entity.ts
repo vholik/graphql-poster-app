@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -17,16 +18,17 @@ export class Community {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.communities_owner)
+  @ManyToOne(() => User, (user) => user.communities_owner, { cascade: true })
   @Field((type) => User)
+  @JoinColumn({ name: 'userId' })
   owner: User;
 
-  @Column()
+  @Column({ nullable: true })
   @Field((type) => String, { nullable: true })
   cover?: string;
 
   @Field((type) => String, { nullable: true })
-  @Column()
+  @Column({ nullable: true })
   photo?: string;
 
   @Column('text')
@@ -34,14 +36,14 @@ export class Community {
   description: string;
 
   @Field((type) => [Post])
-  @OneToMany(() => Post, (post) => post.community)
+  @OneToMany(() => Post, (post) => post.community, { cascade: true })
   posts: Post[];
 
   @Column({ unique: true })
   @Field((type) => String)
   pid: string;
 
-  @Column('text', { array: true })
+  @Column('text', { array: true, nullable: true })
   @Field(() => [String])
   rules: string[];
 }

@@ -37,6 +37,6 @@ export class UpdatePostInput {
   @Field(() => Boolean)
   is_active?: boolean;
 
-  @Field(() => GraphQLUpload, { name: 'file', nullable: true })
+  @Field(() => GraphQLUpload, { name: 'photo', nullable: true })
   photo?: FileUpload;
 }

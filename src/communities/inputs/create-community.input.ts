@@ -6,10 +6,10 @@ import { FileUpload, GraphQLUpload } from 'graphql-upload';
 @ObjectType({ isAbstract: true })
 @InputType({ isAbstract: true })
 export class CreateCommunityInput {
-  @Field(() => GraphQLUpload, { name: 'file', nullable: true })
+  @Field(() => GraphQLUpload, { name: 'cover', nullable: true })
   cover?: FileUpload;
 
-  @Field(() => GraphQLUpload, { name: 'file', nullable: true })
+  @Field(() => GraphQLUpload, { name: 'photo', nullable: true })
   photo?: FileUpload;
 
   @IsString()
@@ -29,6 +29,6 @@ export class CreateCommunityInput {
 
   @IsOptional()
   @IsString({ each: true })
-  @Field(() => [String])
+  @Field(() => [String], { nullable: true })
   rules?: string[];
 }

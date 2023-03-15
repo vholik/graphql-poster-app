@@ -43,16 +43,15 @@ export class Post {
   photo: string;
 
   @Field((type) => Int)
-  @Column()
+  @Column({ default: 0 })
   views: number;
 
-  @ManyToMany(() => User)
-  @JoinTable()
+  @OneToMany(() => User, (user) => user.saved_posts)
   @Field((type) => [User])
   likes: User[];
 
   @Field((type) => [Comment])
-  @ManyToOne(() => Comment, (comment) => comment.post)
+  @OneToMany(() => Comment, (comment) => comment.post)
   comments: Comment[];
 
   @Field((type) => String)
@@ -64,11 +63,11 @@ export class Post {
   title: string;
 
   @Field((type) => String)
-  @Column()
+  @Column({ nullable: true })
   link: string;
 
   @Field((type) => Boolean)
-  @Column()
+  @Column({ default: true })
   is_active: boolean;
 
   // @Field((type) => [String])
