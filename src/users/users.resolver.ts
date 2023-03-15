@@ -32,8 +32,14 @@ export class UsersResolver {
   //   return 'This route is protected';
   // }
 
-  updateUser(@Args('data') updateUserInput: UpdateUserInput) {
-    return this.usersService.update(updateUserInput);
+  @Mutation(() => User)
+  @UseGuards(AuthenticatedGuard)
+  updateUser(
+    @Args('data') updateUserInput: UpdateUserInput,
+    @Context() ctx: any,
+  ) {
+    const userId = ctx.req.user.userId;
+    return this.usersService.update(updateUserInput, userId);
   }
 
   @Mutation((returns) => String)

@@ -70,16 +70,12 @@ export class UsersService {
     return await this.usersRepository.find();
   }
 
-  async update(input: UpdateUserInput) {
-    const { id, ...restInput } = input;
-
+  async update(input: UpdateUserInput, userId: number) {
     return await this.usersRepository.update(
       {
-        id,
+        id: userId,
       },
-      {
-        ...restInput,
-      },
+      input,
     );
   }
 }

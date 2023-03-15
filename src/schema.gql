@@ -75,6 +75,7 @@ type Mutation {
   updatePost(data: UpdatePostInput!): String!
   signup(data: CreateUserInput!): User!
   login(data: LoginUserInput!): User
+  updateUser(data: UpdateUserInput!): User!
   logout: String!
   createCommunity(data: CreateCommunityInput!): Community!
   updateCommunity(data: UpdateCommunityInput!): Community!
@@ -112,6 +113,14 @@ input CreateUserInput {
 input LoginUserInput {
   email: String!
   password: String!
+}
+
+input UpdateUserInput {
+  description: String
+  show_posts: Boolean
+  show_communities: Boolean
+  name: String
+  file: Upload
 }
 
 input CreateCommunityInput {

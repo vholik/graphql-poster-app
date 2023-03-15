@@ -1,4 +1,4 @@
-import { InputType, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import {
   IsBoolean,
   IsNotEmpty,
@@ -7,32 +7,33 @@ import {
   IsString,
   MaxLength,
 } from 'class-validator';
+//@ts-ignore
+import { FileUpload, GraphQLUpload } from 'graphql-upload';
 
 @ObjectType({ isAbstract: true })
 @InputType({ isAbstract: true })
 export class UpdateUserInput {
-  @IsNumber()
-  @IsNotEmpty()
-  id: number;
-
   @IsString()
   @MaxLength(255)
   @IsOptional()
+  @Field(() => String, { nullable: true })
   description: string;
 
   @IsBoolean()
   @IsOptional()
+  @Field(() => Boolean, { nullable: true })
   show_posts: boolean;
 
   @IsBoolean()
   @IsOptional()
+  @Field(() => Boolean, { nullable: true })
   show_communities: boolean;
 
   @IsString()
   @IsOptional()
-  photo: string;
-
-  @IsString()
-  @IsOptional()
+  @Field(() => String, { nullable: true })
   name: string;
+
+  @Field(() => GraphQLUpload, { name: 'file', nullable: true })
+  photo?: FileUpload;
 }

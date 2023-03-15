@@ -4,13 +4,13 @@ import { IsEmail, IsString, Max, MaxLength, MinLength } from 'class-validator';
 @ObjectType({ isAbstract: true })
 @InputType({ isAbstract: true })
 export class LoginUserInput {
-  @Field()
+  @Field(() => String)
   @IsEmail()
   email: string;
 
   @IsString()
   @MaxLength(20)
-  @Field()
+  @Field(() => String)
   @MinLength(8)
   password: string;
 }
