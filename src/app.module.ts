@@ -13,6 +13,7 @@ import { AuthModule } from './auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
 import { CommunitiesModule } from './communities/communities.module';
 import { CommentsModule } from './comments/comments.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -20,10 +21,6 @@ import { CommentsModule } from './comments/comments.module';
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       context: ({ req, res }) => ({ req, res }),
-      // cors: {
-      //   credentials: true,
-      //   origin: false,
-      // },
       playground: {
         settings: {
           'editor.theme': 'light', // use value dark if you want a dark theme in the playground
@@ -51,6 +48,7 @@ import { CommentsModule } from './comments/comments.module';
     AuthModule,
     CommunitiesModule,
     CommentsModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],

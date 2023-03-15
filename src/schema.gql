@@ -81,6 +81,7 @@ type Mutation {
   addComment(data: AddCommentInput!): Comment!
   updateComment(data: UpdateCommentInput!): Comment!
   deleteComment(commentId: Float!): Comment!
+  singleUpload(file: Upload!): Boolean!
 }
 
 input CreatePostInput {
@@ -139,3 +140,6 @@ input UpdateCommentInput {
   text: String!
   commentId: Float!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
